@@ -9,10 +9,13 @@ interface Token {
   },
 }
 
-interface Verify {
+interface IsLogin {
   'data': {
-    'verifyToken': {
-      'authenticated': boolean
+    'islogin': {
+      'authenticated': boolean,
+      'user'?: {
+        '_id': string
+      }
     }
   }
 }
@@ -21,8 +24,10 @@ interface AuthData {
   'data': {
     'login': {
       'authenticated': boolean,
-      'token': Token,
-      'err'?: string
+      'err'?: string,
+      'user'?: {
+        '_id': string
+      }
     }
   }
 }
@@ -34,17 +39,20 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
-  islogin(): Observable<Verify | null>{
+  islogin(): Observable<IsLogin>{
     const tokenString: string = localStorage.getItem('token');
     if (tokenString === '') {
       return null;
     }
     const token: Token = JSON.parse(tokenString);
-    return this.http.post<Verify>('http://localhost:8000/graphql', {
+    return this.http.post<IsLogin>('http://localhost:8000/graphql', {
       query: `
         query {
-          verifyToken(token: "${token.token}") {
+          islogin {
             authenticated
+            user {
+              _id
+            }
           }
         }
       `
@@ -56,12 +64,11 @@ export class AuthService {
       query: `
         query {
           login(email: "${email}", password: "${password}") {
-            token {
-              token
-              expiresIn
-            }
             authenticated
             err
+            user {
+              _id
+            }
           }
         }
       `

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -8,29 +9,33 @@ import { AuthService } from '../auth.service';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private auth: AuthService) { }
+  authData = {
+    email: '',
+    password: '',
+  }
 
-  ngOnInit(): void {
-    this.auth.islogin()
-    .subscribe(data => {
-      console.log(data)
-    })
+  constructor(private auth: AuthService, private router: Router) {
     
+  }
+
+  ngOnInit(): void {  
+    this.auth.islogin()
+    .subscribe( data => {
+      if(data.data.islogin.authenticated) {
+        this.router.navigate[data.data.islogin.user._id];
+      }
+    });
   }
 
   login(event) {
     event.preventDefault();
-    const email: string = event.target.querySelector('#email').value;
-    const password: string = event.target.querySelector('#password').value;
-    this.auth.login(email, password)
+    this.auth.login(this.authData.email, this.authData.password)
       .subscribe( data => {
-        console.log(data)
-        const { authenticated, err, token } = data.data.login;
-        console.log(authenticated, err, token)
+        const { authenticated, err, user } = data.data.login;
         if(!authenticated) {
           return alert(err);
         }
-        localStorage.setItem('token', JSON.stringify(token));
+        this.router.navigate([user._id]);
       });
   }
 }
