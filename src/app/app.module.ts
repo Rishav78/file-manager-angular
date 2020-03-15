@@ -7,11 +7,13 @@ import { LoginComponent } from './login/login.component';
 import { AuthService } from './auth.service';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { FileManagerComponent } from './file-manager/file-manager.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    FileManagerComponent
   ],
   imports: [
     BrowserModule,

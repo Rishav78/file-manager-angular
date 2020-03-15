@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse} from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 interface Token {
@@ -9,10 +9,11 @@ interface Token {
   },
 }
 
-interface IsLogin {
+interface currentUser {
   'data': {
-    'islogin': {
+    'currentUser': {
       'authenticated': boolean,
+      'err'?: string,
       'user'?: {
         '_id': string
       }
@@ -24,6 +25,10 @@ interface AuthData {
   'data': {
     'login': {
       'authenticated': boolean,
+      'token'?: {
+        'token': string,
+        'expiresIn': number
+      },
       'err'?: string,
       'user'?: {
         '_id': string
@@ -39,23 +44,23 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
-  islogin(): Observable<IsLogin>{
-    const tokenString: string = localStorage.getItem('token');
-    if (tokenString === '') {
-      return null;
-    }
+  currentUser(): Observable<currentUser | null>{
+    const tokenString = localStorage.getItem('token');
     const token: Token = JSON.parse(tokenString);
-    return this.http.post<IsLogin>('http://localhost:8000/graphql', {
+    return this.http.post<currentUser>('http://localhost:8000/graphql', {
       query: `
         query {
-          islogin {
-            authenticated
+          currentUser(token: "${token.token}") {
+          authenticated
             user {
               _id
             }
+            err
           }
         }
       `
+    }, {
+      withCredentials: true,
     })
   }
 
@@ -66,12 +71,16 @@ export class AuthService {
           login(email: "${email}", password: "${password}") {
             authenticated
             err
+            token {
+              token
+              expiresIn
+            }
             user {
               _id
             }
           }
         }
       `
-    })
+    });
   }
 }

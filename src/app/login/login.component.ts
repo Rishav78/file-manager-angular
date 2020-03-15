@@ -19,10 +19,13 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {  
-    this.auth.islogin()
+    const tokenString = localStorage.getItem('token');
+    if(!tokenString) return;
+    this.auth.currentUser()
     .subscribe( data => {
-      if(data.data.islogin.authenticated) {
-        this.router.navigate[data.data.islogin.user._id];
+      console.log(data)
+      if(data.data.currentUser.authenticated) {
+        this.router.navigate([data.data.currentUser.user._id]);
       }
     });
   }
@@ -31,10 +34,12 @@ export class LoginComponent implements OnInit {
     event.preventDefault();
     this.auth.login(this.authData.email, this.authData.password)
       .subscribe( data => {
-        const { authenticated, err, user } = data.data.login;
+        console.log(data)
+        const { authenticated, err, user, token } = data.data.login;
         if(!authenticated) {
           return alert(err);
         }
+        localStorage.setItem('token', JSON.stringify(token));
         this.router.navigate([user._id]);
       });
   }
