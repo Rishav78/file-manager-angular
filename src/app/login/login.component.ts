@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
     this.auth.currentUser()
     .subscribe( data => {
       if(data.data.currentUser.authenticated) {
-        this.router.navigate([data.data.currentUser.user._id]);
+        this.router.navigate(['/']);
       }
     });
   }

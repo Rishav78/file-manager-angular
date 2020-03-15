@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { FilesService } from '../files.service';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-file-manager',
@@ -9,14 +10,30 @@ import { FilesService } from '../files.service';
 })
 export class FileManagerComponent implements OnInit {
 
-  data: object[] = []
-  constructor(private files: FilesService, private route: Router) { }
+  filename: string = '';
+  filesdata: object[] = [];
+
+  constructor(private auth: AuthService, private files: FilesService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.files.getFiles()
-    .subscribe( data => {
-      console.log(data);
-    })
+  
+  }
+
+
+  createNewFile(event) {
+    const location = this.router.url;
+    this.files.createFile(location, this.filename)
+      .subscribe( data => {
+        console.log(data);
+      })
+  }
+
+  createNewFolder(event) {
+    const location = this.router.url;
+    this.files.createFolder(location, this.filename)
+      .subscribe( data => {
+        console.log(data);
+      })
   }
 
 }

@@ -1,1 +1,5 @@
-<p>files works!</p>
+<div style="max-height: 250px;overflow: scroll;">
+    <div *ngFor="let file of filesdata">
+         <a (click)="showFiles(file)">{{ file.name }}</a>
+    </div>
+</div>
