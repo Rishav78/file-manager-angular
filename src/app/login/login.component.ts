@@ -23,7 +23,6 @@ export class LoginComponent implements OnInit {
     if(!tokenString) return;
     this.auth.currentUser()
     .subscribe( data => {
-      console.log(data)
       if(data.data.currentUser.authenticated) {
         this.router.navigate([data.data.currentUser.user._id]);
       }
@@ -34,7 +33,6 @@ export class LoginComponent implements OnInit {
     event.preventDefault();
     this.auth.login(this.authData.email, this.authData.password)
       .subscribe( data => {
-        console.log(data)
         const { authenticated, err, user, token } = data.data.login;
         if(!authenticated) {
           return alert(err);

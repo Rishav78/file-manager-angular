@@ -8,12 +8,15 @@ import { AuthService } from './auth.service';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { FileManagerComponent } from './file-manager/file-manager.component';
+import { FilesService } from './files.service';
+import { FilesComponent } from './files/files.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    FileManagerComponent
+    FileManagerComponent,
+    FilesComponent
   ],
   imports: [
     BrowserModule,
@@ -21,7 +24,7 @@ import { FileManagerComponent } from './file-manager/file-manager.component';
     HttpClientModule,
     FormsModule
   ],
-  providers: [AuthService],
+  providers: [AuthService, FilesService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

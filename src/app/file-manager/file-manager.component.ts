@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { FilesService } from '../files.service';
 
 @Component({
   selector: 'app-file-manager',
@@ -8,11 +9,14 @@ import { Router } from '@angular/router';
 })
 export class FileManagerComponent implements OnInit {
 
-  routepath: string = '';
-  constructor(private route: Router) { }
+  data: object[] = []
+  constructor(private files: FilesService, private route: Router) { }
 
   ngOnInit(): void {
-    this.routepath = this.route.url
+    this.files.getFiles()
+    .subscribe( data => {
+      console.log(data);
+    })
   }
 
 }

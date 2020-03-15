@@ -1,0 +1,16 @@
+.root {
+    width: 100%;
+    height: 100vh;
+    background: #e2e2cc;
+    text-align: center;
+}
+
+button {
+    border: none;
+    background:#34b88f;
+    padding: 8px 24px;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 15px;
+    border-radius: 3px;
+}

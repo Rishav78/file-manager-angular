@@ -1,0 +1,24 @@
+.fileManagarRoot {
+    width: 800px;
+    display: inline-block;
+    text-align: left;
+    background-color: #ffffff;
+    border-radius: 5px;
+    padding: 20px;
+    margin-top: 50px;
+}
+.service {
+    display: flex;
+    flex-direction: row;
+    padding: 12px 0px;
+}
+
+button {
+    padding: 8px 24px;
+    box-sizing: border-box;
+    border: 1px solid #333333;
+    background:#34b88f;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 15px;
+}
