@@ -46,6 +46,19 @@ export class AuthService {
 
   currentUser(): Observable<currentUser | null>{
     const tokenString = localStorage.getItem('token');
+    if( !tokenString) {
+      return new Observable(subscriber => {
+        const data = <currentUser>
+        {
+          data : { 
+            currentUser: {
+              authenticated: false
+            }
+          }
+        };
+        subscriber.next(data);
+      });
+    }
     const token: Token = JSON.parse(tokenString);
     return this.http.post<currentUser>('http://localhost:8000/graphql', {
       query: `

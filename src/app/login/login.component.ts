@@ -18,15 +18,7 @@ export class LoginComponent implements OnInit {
     
   }
 
-  ngOnInit(): void {  
-    const tokenString = localStorage.getItem('token');
-    if(!tokenString) return;
-    this.auth.currentUser()
-    .subscribe( data => {
-      if(data.data.currentUser.authenticated) {
-        this.router.navigate(['/']);
-      }
-    });
+  ngOnInit(): void {
   }
 
   login(event) {
@@ -38,7 +30,7 @@ export class LoginComponent implements OnInit {
           return alert(err);
         }
         localStorage.setItem('token', JSON.stringify(token));
-        this.router.navigate([user._id]);
+        this.router.navigate(['/']);
       });
   }
 }

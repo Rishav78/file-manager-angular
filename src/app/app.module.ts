@@ -10,6 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FileManagerComponent } from './file-manager/file-manager.component';
 import { FilesService } from './files.service';
 import { FilesComponent } from './files/files.component';
+import { AuthGuard } from './auth.guard';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,7 @@ import { FilesComponent } from './files/files.component';
     HttpClientModule,
     FormsModule
   ],
-  providers: [AuthService, FilesService],
+  providers: [AuthService, FilesService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
